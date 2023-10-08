@@ -1,22 +1,7 @@
 # FROM nvidia/cuda:11.4.0-base-ubuntu20.04
-FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
+FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-devel
 
 WORKDIR /app
-
-# RUN apt-get update && apt-get install -y \
-#     build-essential \
-#     curl \
-#     software-properties-common \
-#     git \
-#     libfftw3-dev \
-#     liblapack-dev \
-#     libsndfile-dev \
-#     cmake \
-#     wget \
-#     && rm -rf /var/lib/apt/lists/* \
-#     && pip install --upgrade pip \
-#     && pip install cython==0.29.19 \
-#     && pip install tifresi==0.1.2
 
 ENV TZ=Asia/Singapore
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -29,12 +14,6 @@ RUN apt update -y && apt upgrade -y && \
     cd Python-3.9.18 && \
     ./configure --prefix=/usr --enable-optimizations && \
     make install 
-
-# RUN apt-get update && \
-#     apt-get install -y software-properties-common && \
-#     add-apt-repository -y ppa:deadsnakes/ppa && \
-#     apt-get update && \
-#     apt install -y python3.8
 
 RUN ls /usr/bin 
 
@@ -49,8 +28,6 @@ RUN apt-get install -y \
     cmake \
     wget \
     && rm -rf /var/lib/apt/lists/* \
-    # && python3.9 -m pip install --upgrade pip \
-    # && python3.9 -m pip install numpy==1.23.5 \
     && python3.9 -m pip install --global-option build --global-option --force cython==0.29.19 \
     && python3.9 -m pip install tifresi
 
@@ -65,6 +42,4 @@ EXPOSE 8100
 
 WORKDIR /app
 
-COPY ./script.sh /
-RUN chmod +x /script.sh
-ENTRYPOINT ["/script.sh"]
+ENTRYPOINT ["bash"]

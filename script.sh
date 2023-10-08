@@ -1,2 +1,2 @@
 #!/bin/sh
-print("Hello World")
+echo "Hello World!"
